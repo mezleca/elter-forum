@@ -1,0 +1,35 @@
+<div class="header">
+    <div class="header-text">
+        <a href="/">site-foda</a>
+    </div>
+    <div class="subheader-text">
+        <a href="gerenciar">gerenciar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="criar-post">criar</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="box1">
+        <form action="/admin/criar-post" method="post">
+            <div class="box">
+                <label for="titulo">Título</label>
+                <input type="text" name="titulo" id="titulo">
+            </div>
+
+            <div class="box">
+                <label for="usuario">Usuário</label>
+                <input type="text" name="usuario" id="usuario">
+            </div>
+
+            <div class="box">
+                <hr>
+                <label for="conteudo">Conteúdo</label>
+                <textarea id="conteudo" name="conteudo" rows="8" cols="50"></textarea>
+            </div>
+            
+            <button type="submit">Enviar post</button>
+        </form>
+    </div>
+</div>

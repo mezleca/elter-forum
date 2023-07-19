@@ -1,0 +1,18 @@
+<div class="login-container">
+    <h1>{{error}}</h1>
+    <h1 class="login-heading">Login</h1>
+    <form action="/auth/login" method="post">
+        <div class="login-form-group">
+            <label for="email" class="login-label">Email</label>
+            <input type="email" name="email" id="email" class="login-input" required>
+        </div>
+
+        <div class="login-form-group">
+            <label for="password" class="login-label">Senha</label>
+            <input type="password" name="senha" id="password" class="login-input" required>
+        </div>
+
+        <button type="submit" class="login-button">Entrar</button>
+        <h1 class="registro-heading"><a href="/auth/cadastro">new user?</a></h1>
+    </form>
+</div>

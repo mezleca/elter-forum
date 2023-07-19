@@ -1,0 +1,23 @@
+<div class="header">
+    <div class="header-text">
+        <a href="/">site-foda</a>
+    </div>
+    <div class="subheader-text">
+        <a href="admin/gerenciar">gerenciar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="admin/criar-post">criar</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1 class="post-label">Todos os posts</h1>
+
+    {{#each posts}}
+    <div class="post">
+        <h1 class="post-title">{{titulo}}</h1>
+        <p class="post-author">escrito por {{usuario}}</p>
+        <div class="post-content">{{conteudo}}</div>
+    </div>
+    {{/each}}
+</div>

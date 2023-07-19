@@ -1,0 +1,24 @@
+<div class="registro-container">
+    <h1>{{error}}</h1>
+    <h1 class="registro-heading">Registro</h1>
+    <form action="/auth/cadastro" method="post">
+        <div class="registro-form-group">
+            <label for="usuario" class="registro-label">Usuário</label>
+            <input type="text" name="usuario" id="usuario" class="registro-input" required>
+        </div>
+
+        <div class="registro-form-group">
+            <label for="email" class="registro-label">Email</label>
+            <input type="email" name="email" id="email" class="registro-input" required>
+        </div>
+
+        <div class="registro-form-group">
+            <label for="password" class="registro-label">Senha</label>
+            <input type="password" name="senha" id="password" class="registro-input" required>
+        </div>
+
+        <button type="submit" class="registro-button">Registrar</button>
+            <h1 class="registro-heading"><a href="/auth/login">already have a account?</a></h1>
+    </form>
+
+</div>

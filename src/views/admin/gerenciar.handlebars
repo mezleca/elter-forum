@@ -1,0 +1,26 @@
+<div class="header">
+    <div class="header-text">
+        <a href="/">site-foda</a>
+    </div>
+    <div class="subheader-text">
+        <a href="gerenciar">gerenciar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="criar-post">criar</a>
+    </div>
+</div>
+
+<div class="content">
+    <h1 class="post-label">Todos os posts</h1>
+
+    <div class="post-grid">
+        {{#each posts}}
+        <div class="post-box">
+            <h2 class="post-title">{{titulo}}</h2>
+            <p class="post-author">by {{usuario}}</p>
+            <div class="post-content">{{conteudo}}</div>
+            <button><a href="delete-post/{{id}}">deletar post</a></button>
+        </div>
+        {{/each}}
+    </div>
+</div>
