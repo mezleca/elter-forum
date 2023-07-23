@@ -8,6 +8,9 @@
     <div class="subheader-text">
         <a href="criar-post">criar</a>
     </div>
+    <div class="subheader-text">
+        <a href="/logout">logout</a>
+    </div>
 </div>
 
 <div class="content">
@@ -17,7 +20,7 @@
         {{#each posts}}
         <div class="post-box">
             <h2 class="post-title">{{titulo}}</h2>
-            <p class="post-author">by {{usuario}}</p>
+            <p class="post-author">escrito por {{usuario}} | {{date}}</p>
             <div class="post-content">{{conteudo}}</div>
             <button><a href="delete-post/{{id}}">deletar post</a></button>
         </div>

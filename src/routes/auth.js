@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
         return res.json("senha invalida");
     }
     else {
-        const data = token.sign({ id: email_exist._id }, process.env.MY_SECRET);
+        const data = token.sign({ id: email_exist._id, name: email_exist.usuario, role: email_exist.role }, process.env.MY_SECRET);
 
         res.cookie('token', data, { maxAge: 604800000, httpOnly: true }); // 7 dias
         res.redirect("/");
@@ -54,7 +54,8 @@ router.post("/cadastro", async (req, res) => {
         const new_user = new User({
             usuario: usuario,
             email: email,
-            senha: hashed_pass
+            senha: hashed_pass,
+            role: "admin"
         }).save();
     
         res.redirect("/auth/login");

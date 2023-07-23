@@ -1,7 +1,8 @@
 const express = require("express");
-const handlebars = require("express-handlebars");
+const exphbs = require('express-handlebars');
 const mongoose = require("mongoose");
 const parser = require("cookie-parser");
+const validator = require("express-validator");
 
 const admin_routes = require("./routes/admin");
 const user_routes = require("./routes/user");
@@ -9,10 +10,27 @@ const auth_routes = require("./routes/auth");
 
 const app = express();
 
-app.engine("handlebars", handlebars.engine({defaultLayout: 'main', runtimeOptions: {
-    allowProtoPropertiesByDefault: true,
-    allowProtoMethodsByDefault: true,
-}}));
+// Helper para verificar igualdade
+const handlebars = exphbs.create({
+    defaultLayout: 'main', // Define o layout padrão
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+      allowProtoMethodsByDefault: true,
+    },
+    helpers: {
+      ifEqual: function(a, b, options) {
+        if (a === b) {
+            console.log(a, b);
+          return options.fn(this);
+        } else {
+            console.log(a, b);
+          return options.inverse(this);
+        }
+      }
+    }
+  })
+
+app.engine("handlebars", handlebars.engine);
 
 app.set('view-engine', "handlebars");
 
