@@ -39,7 +39,7 @@
 
     {{#each posts}} 
     <div class="post">
-        <h1 class="post-title">{{titulo}}</h1>
+        <h1 class="post-title"><a href="/post/{{_id}}">{{titulo}}</a></h1>
          {{#ifEqual role "owner"}}
             <p class="post-author">Escrito por <a href="/profile/{{_id}}" style="color: rgb(143, 7, 255);">{{usuario}}</a> | {{date}}</p>
         {{/ifEqual}}

@@ -19,10 +19,8 @@ const handlebars = exphbs.create({
     helpers: {
       ifEqual: function(a, b, options) {
         if (a === b) {
-            console.log(a, b);
           return options.fn(this);
         } else {
-            console.log(a, b);
           return options.inverse(this);
         }
       }

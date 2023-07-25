@@ -295,6 +295,79 @@
         color: #888;
         margin: 0;
     }
+
+    .comments-container {
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .new-comment {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    #comment-text {
+        flex: 1;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: none; /* Impede que o textarea seja redimensionado */
+    }
+
+    #submit-comment {
+        padding: 8px 15px;
+        font-size: 16px;
+        background-color: #ffcc00;
+        color: #333;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .comments-list {
+        border-radius: 4px;
+        padding-left: 15px;
+        color: black;
+        background: white;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }
+
+    .comment {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .comment-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .comment-author {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .comment-date {
+        color: #888;
+        font-size: 14px;
+    }
+
+    .comment-text {
+        font-size: 16px;
+    }
+
+    .separator {
+        margin: 20px 0;
+        border-top: 1px solid #ccc;
+    }
     </style>
 </head>
 <body>

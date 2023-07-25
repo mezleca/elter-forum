@@ -3,11 +3,23 @@ const router = express.Router();
 
 const Posts = require("../models/Post");
 const User = require("../models/User");
+const Comentarios = require("../models/Comentarios");
 
 const {token, verify} = require("../mw/token");
 
-async function setup_posts(model) { 
+function formatDate(date) {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+  
+    return `${day}/${month}/${year} - ${hour}:${minute}`;
+}
+
+async function setup_posts(model, customid) { 
     try {
+    if (!customid) {
       const posts = await model.find().sort({timestamp: -1});
       const posts_obj = {
         categorias: {
@@ -45,6 +57,11 @@ async function setup_posts(model) {
         posts_obj.categorias.media.last_post = posts_obj.categorias.media.posts[0] || null;
 
         return posts_obj;
+    }
+    else {
+        const posts = await model.findOne({_id: customid});
+        return posts;
+    }
 
     } catch (error) {
       console.error('Erro ao obter o ultimo valor adicionado:', error);
@@ -62,6 +79,42 @@ router.get("/categoria/:name", async (req, res) => {
     const categoria = req.params.name;
     const posts = await setup_posts(Posts);
     res.render("user/posts.handlebars", {posts: posts.categorias[categoria].posts});
+})
+
+router.get("/post/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const posts = await setup_posts(Posts, id);
+    const comentarios = await Comentarios.find({post_id: id}).sort({timestamp: -1}).exec();
+
+    res.render("user/post.handlebars", {post: posts, comentario: comentarios, postid: id});
+})
+
+router.post("/add-comentario", async (req, res) => {
+    const {conteudo, post_id} = req.body;
+
+    const date = new Date();
+    const time = formatDate(date);
+    const cookie = req.cookies.token;
+    const _token = token.decode(cookie);
+    const user_role = _token.role;
+
+    try {
+        const user = await User.findById(_token.id);
+        const new_comment = new Comentarios({
+            post_id: post_id,
+            conteudo: conteudo,
+            usuario: user.usuario,
+            date: time,
+            role: user_role,
+            timestamp: Date.now()
+        }).save();
+
+        res.redirect(`/post/${post_id}`);
+    } catch(err) {
+        res.redirect(`/post/${post_id}`);
+        throw err;
+    }
 })
 
 router.get("/profile", async (req, res) => {

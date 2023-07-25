@@ -1,0 +1,70 @@
+<div class="header">
+    <div class="header-text">
+        <a href="/">site-foda</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/admin/gerenciar">gerenciar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/admin/criar-post">criar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/logout">logout</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/profile/">perfil</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="post">
+        <h1 class="post-title">{{post.titulo}}</h1>
+        {{#ifEqual post.role "owner"}}
+            <p class="post-author">Escrito por <a href="/profile/{{post._id}}" style="color: rgb(143, 7, 255);">{{post.usuario}}</a> | {{post.date}}</p>
+        {{/ifEqual}}
+        {{#ifEqual post.role "admin"}}
+            <p class="post-author">Escrito por <a href="/profile/{{post._id}}" style="color: rgb(255, 7, 110);">{{post.usuario}}</a> | {{post.date}}</p>
+        {{/ifEqual}}
+        {{#ifEqual post.role "member"}}
+            <p class="post-author" id="user_name">Escrito por <a href="/profile/{{post._id}}">{{post.usuario}}</a> | {{post.date}}</p> 
+        {{/ifEqual}}
+
+        <div class="post-content">{{post.conteudo}}</div>
+
+    </div>
+
+    <h1 class="post-label">Comentarios: </h1>
+
+    <div class="comments-list">
+
+        <div class="comments-container">
+            <div class="new-comment">
+                <form action="/add-comentario" method="post" style="display: flex; flex-direction: column; width: 100%">
+                    <textarea id="comment-text" placeholder="Digite seu comentário..." rows="3" name="conteudo"></textarea>
+                    <input type="hidden" name="post_id" value="{{postid}}">
+                    <button id="submit-comment" type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+        <hr class="separator" style="color: black;">
+
+        {{#each comentario}}
+        <div class="comment">
+            <div class="comment-header">
+                {{#ifEqual role "owner"}}
+                    <span class="comment-author" style="color: rgb(143, 7, 255);">{{usuario}}</span>
+                {{/ifEqual}}
+                {{#ifEqual role "admin"}}
+                    <span class="comment-author" style="color: rgb(255, 7, 110);">{{usuario}}</span>
+                {{/ifEqual}}
+                {{#ifEqual role "member"}}
+                    <span class="comment-author">{{usuario}} - </span>
+                {{/ifEqual}}
+                <span class="comment-date">- {{date}}</span>
+            </div>
+            <div class="comment-text">{{conteudo}}</div>
+        </div>
+        {{/each}}
+    </div>
+</div>
