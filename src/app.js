@@ -2,7 +2,6 @@ const express = require("express");
 const exphbs = require('express-handlebars');
 const mongoose = require("mongoose");
 const parser = require("cookie-parser");
-const validator = require("express-validator");
 
 const admin_routes = require("./routes/admin");
 const user_routes = require("./routes/user");

@@ -16,21 +16,40 @@
     </div>
 </div>
 
+<div class="header">
+    <div class="header-text">
+        <a href="/">site-foda</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/admin/gerenciar">gerenciar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/admin/criar-post">criar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/logout">logout</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/profile/">perfil</a>
+    </div>
+</div>
+
 <div class="content">
     <h1 class="post-label">Todos os posts</h1>
 
     {{#each posts}} 
     <div class="post">
         <h1 class="post-title">{{titulo}}</h1>
-        {{#ifEqual role "owner"}}
-            <p class="post-author">Escrito por <p class="post-author" style="color: rgb(143, 7, 255);" id="user_name"><a href="/profile/{{_id}}">{{usuario}}</a></p> | {{date}}</p>
+         {{#ifEqual role "owner"}}
+            <p class="post-author">Escrito por <a href="/profile/{{_id}}" style="color: rgb(143, 7, 255);">{{usuario}}</a> | {{date}}</p>
         {{/ifEqual}}
         {{#ifEqual role "admin"}}
-            <p class="post-author">Escrito por <p class="post-author" style="color: rgb(170, 23, 23);" id="user_name"><a href="/profile/{{_id}}">{{usuario}}</a></p> | {{date}}</p>
+            <p class="post-author">Escrito por <a href="/profile/{{_id}}" style="color: rgb(255, 7, 110);">{{usuario}}</a> | {{date}}</p>
         {{/ifEqual}}
         {{#ifEqual role "member"}}
             <p class="post-author" id="user_name">Escrito por <a href="/profile/{{_id}}">{{usuario}}</a> | {{date}}</p> 
         {{/ifEqual}}
+
         <div class="post-content">{{conteudo}}</div>
     </div>
     {{/each}}

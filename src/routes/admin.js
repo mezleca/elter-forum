@@ -35,7 +35,7 @@ router.get("/criar-post", verify, (req, res) => {
 
 router.post("/criar-post", verify, async (req, res) => {
 
-    const {titulo, conteudo} = req.body;
+    const {titulo, conteudo, categoria} = req.body;
 
     const date = new Date();
     const time = formatDate(date);
@@ -50,7 +50,9 @@ router.post("/criar-post", verify, async (req, res) => {
             conteudo: conteudo,
             usuario: user.usuario,
             date: time,
-            role: user_role
+            role: user_role,
+            categoria: categoria,
+            timestamp: Date.now()
         }).save();
 
         res.redirect("criar-post");
@@ -62,7 +64,6 @@ router.post("/criar-post", verify, async (req, res) => {
 
 router.get("/gerenciar", verify, (req, res) => {
     Posts.find().then((posts) => {
-        console.log(posts)
         res.render("admin/gerenciar.handlebars", {posts: posts})
     })
 });
@@ -71,7 +72,6 @@ router.get("/delete-post/:id", verify, (req, res) => {
     const id = req.params.id;
 
     Posts.deleteOne({ _id: id }).then(() => {
-        console.log("post deletado com sucesso");
         res.redirect("/admin/gerenciar");
     }).catch((err) => {
         console.log(err);

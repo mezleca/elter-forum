@@ -1,0 +1,44 @@
+<div class="header">
+    <div class="header-text">
+        <a href="/">site-foda</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/admin/gerenciar">gerenciar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/admin/criar-post">criar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/logout">logout</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/profile/">perfil</a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="box1">
+        <h1 class="post-label">Todas as categorias</h1>
+        <div class="categorias">
+            {{#each categorias}}
+            <div class="category">
+                <h2 class="category-title"><a href="/categoria/{{nome}}">{{nome}}</a></h2>
+                {{#if last_post}}
+                    <p class="last-post-title">{{last_post.titulo}}</p>
+                         {{#ifEqual last_post.role "owner"}}
+                            <p class="post-author">por <a href="/profile/{{_id}}" style="color: rgb(143, 7, 255);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
+                        {{/ifEqual}}
+                        {{#ifEqual last_post.role "admin"}}
+                            <p class="post-author">por <a href="/profile/{{_id}}" style="color: rgb(255, 7, 110);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
+                        {{/ifEqual}}
+                        {{#ifEqual last_post.role "member"}}
+                            <p class="post-author" id="user_name">por <a href="/profile/{{_id}}">{{last_post.usuario}}</a> | {{last_post.date}}</p> 
+                        {{/ifEqual}}
+                {{else}}
+                    <p class="no-post-message">Nenhum post nesta categoria ainda.</p>
+                {{/if}}
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

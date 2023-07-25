@@ -8,7 +8,6 @@ async function verify_token(req, res, next) {
     const token = req.cookies.token;
     const secret = process.env.MY_SECRET;
     const decoded = jwt.decode(token);  
-
     const user = await User.findById(decoded.id);
 
     if (!(user.role == "admin" || user.role == "owner")) {

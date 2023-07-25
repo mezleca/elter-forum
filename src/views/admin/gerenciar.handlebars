@@ -15,15 +15,16 @@
 
 <div class="content">
     <h1 class="post-label">Todos os posts</h1>
-
-    <div class="post-grid">
-        {{#each posts}}
-        <div class="post-box">
-            <h2 class="post-title">{{titulo}}</h2>
-            <p class="post-author">escrito por {{usuario}} | {{date}}</p>
-            <div class="post-content">{{conteudo}}</div>
-            <button><a href="delete-post/{{id}}">deletar post</a></button>
-        </div>
-        {{/each}}
+        <div class="post">
+            <div class="post-grid">
+                {{#each posts}}
+                <div class="post-box">
+                    <h2 class="post-title">{{titulo}}</h2>
+                    <p class="post-author">escrito por {{usuario}} | {{date}}</p>
+                    <div class="post-content">{{conteudo}}</div>
+                    <button><a href="delete-post/{{id}}">deletar post</a></button>
+                </div>
+                {{/each}}
+            </div>
     </div>
 </div>

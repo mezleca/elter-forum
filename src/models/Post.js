@@ -5,7 +5,9 @@ const Posts = mongoose.model("Post", {
     conteudo: String,
     usuario: String,
     date: String,
-    role: String
+    role: String,
+    categoria: String,
+    timestamp: Number
 });
 
 module.exports = Posts;
