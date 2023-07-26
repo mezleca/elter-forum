@@ -15,15 +15,19 @@
 
 <div class="content">
     <div class="box1">
-        <form action="/admin/criar-post" method="post">
+        <form action="/criar-post" method="post">
             <div class="box">
                 <label for="titulo">Título</label>
                 <input type="text" name="titulo" id="titulo">
             </div>
 
             <div class="box">
-                <label for="categoria">Caterogia</label>
-                <input type="text" name="categoria" id="categoria">
+                <label for="categoria">Categoria</label>
+                <select class="select-box" name="categoria">
+                    <option value="anuncios">Anuncios</option>
+                    <option value="media">Media</option>
+                    <option value="general">Geral</option>
+                </select>
             </div>
 
             <div class="box">

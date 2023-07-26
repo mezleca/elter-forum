@@ -21,47 +21,6 @@ router.get("/", verify, (req, res) => {
     res.redirect("criar-post")
 });
 
-router.get("/criar-post", verify, (req, res) => {
-    const cookie = req.cookies.token;
-    const _token = token.decode(cookie);  
-
-    User.findById(_token.id).then((user) => {       
-        res.render("admin/criar.handlebars", {usuario: user.usuario});
-    }).catch((err) => {
-        console.log(err);
-        res.redirect("/logout");
-    });
-});
-
-router.post("/criar-post", verify, async (req, res) => {
-
-    const {titulo, conteudo, categoria} = req.body;
-
-    const date = new Date();
-    const time = formatDate(date);
-    const cookie = req.cookies.token;
-    const _token = token.decode(cookie);
-    const user_role = _token.role;
-
-    try {
-        const user = await User.findById(_token.id);
-        const new_post = new Posts({
-            titulo: titulo,
-            conteudo: conteudo,
-            usuario: user.usuario,
-            date: time,
-            role: user_role,
-            categoria: categoria,
-            timestamp: Date.now()
-        }).save();
-
-        res.redirect("criar-post");
-    } catch(err) {
-        console.log(err);
-        res.redirect("criar-post");
-    }
-});
-
 router.get("/gerenciar", verify, (req, res) => {
     Posts.find().then((posts) => {
         res.render("admin/gerenciar.handlebars", {posts: posts})
