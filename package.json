@@ -1,4 +1,14 @@
 {
+  "name": "liberations-forum",
+  "version": "0.3.0",
+  "description": "top 10 forums",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rel",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
