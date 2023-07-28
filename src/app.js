@@ -2,6 +2,7 @@ const express = require("express");
 const exphbs = require('express-handlebars');
 const mongoose = require("mongoose");
 const parser = require("cookie-parser");
+const path = require('path');
 
 const admin_routes = require("./routes/admin");
 const user_routes = require("./routes/user");
@@ -30,6 +31,7 @@ const handlebars = exphbs.create({
 app.engine("handlebars", handlebars.engine);
 
 app.set('view-engine', "handlebars");
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({
     extended: true
