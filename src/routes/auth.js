@@ -9,19 +9,8 @@ router.get("/login", (req, res) => {
     res.render("user/login.handlebars");
 })
 
-router.get("/cadastro", (req, res) => { 
-    res.redirect("/auth/cadastro/none");
-})
-
-router.get("/cadastro/:status", (req, res) => {
-    const status = req.params.status;
-
-    // TODO: nem preciso dizer que isso e uma merda
-    if (status == "none")
-        res.render("user/cadastro.handlebars");
-    else {
-        res.render("user/cadastro.handlebars", {error: status});
-    }
+router.get("/cadastro", (req, res) => {
+    res.render("user/cadastro.handlebars");
 }) 
 
 router.post("/login", async (req, res) => {
@@ -29,11 +18,11 @@ router.post("/login", async (req, res) => {
 
     const email_exist = await User.findOne({ email: email });
     if (!email_exist){
-        return res.json("email nao encontrado");
+        return res.render("user/login.handlebars", {error: {msg: "email nao encontrado!"}});
     }
 
     if (!await bcrypt.compare(senha, email_exist.senha)) {
-        return res.json("senha invalida");
+        return res.render("user/login.handlebars", {error: {msg: "senha invalida"}});
     }
     else {
         const data = token.sign({ id: email_exist._id, name: email_exist.usuario, role: email_exist.role }, process.env.MY_SECRET);
@@ -43,26 +32,28 @@ router.post("/login", async (req, res) => {
     }
 })
 
-router.post("/cadastro", async (req, res) => {
+router.post("/cadastro", async (req, res) => { // TODO: talvez utilizar algum outro modulo especifico para o popup?
     const {usuario, email, senha} = req.body;
 
     const email_exist = await User.findOne({ email: email });
-    if (!email_exist) {
-
-        const hashed_pass = await bcrypt.hash(senha, 15);
-
-        const new_user = new User({
-            usuario: usuario,
-            email: email,
-            senha: hashed_pass,
-            role: "admin"
-        }).save();
-    
-        res.redirect("/auth/login");
+    if (email_exist) { 
+        return res.render("user/cadastro.handlebars", {error: {msg: "ja existe um usuario com esse email!"}});
     }
-    else{
-        res.redirect("/auth/cadastro/ja existe um usuario com esse email");
+
+    const user_exist = await User.findOne({ usuario: usuario });
+    if (user_exist) {
+        return res.render("user/cadastro.handlebars", {error: {msg: "ja existe um usuario com esse nome!"}});
     }
+
+    const hashed_pass = await bcrypt.hash(senha, 15);
+    const new_user = new User({
+        usuario: usuario,
+        email: email,
+        senha: hashed_pass,
+        role: "admin"
+    }).save();
+
+    res.redirect("/auth/login");
 })
 
 module.exports = router;

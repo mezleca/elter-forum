@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const User = require("../models/User");
 
-async function verify_token(req, res, next) {
+async function verify_token_role(req, res, next) {
 
     try {
         const token = req.cookies.token;
@@ -29,4 +29,26 @@ async function verify_token(req, res, next) {
     }   
 }
 
-module.exports = {token: jwt, verify: verify_token, piroca: verify_token};
+async function verify_token(req, res, next) {
+
+    try {
+        const token = req.cookies.token;
+        const secret = process.env.MY_SECRET;
+        const decoded = jwt.decode(token);  
+        const user = await User.findById(decoded.id);
+
+        if (!token) {
+            res.redirect("/auth/login");
+        }
+
+        jwt.verify(token, secret);
+        next();
+    }
+    catch(err) {
+        console.log(err);
+        res.clearCookie("token");
+        res.redirect("/auth/login");
+    }   
+}
+
+module.exports = {token: jwt, verify: verify_token_role, verify_user: verify_token};

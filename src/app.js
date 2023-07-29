@@ -10,9 +10,8 @@ const auth_routes = require("./routes/auth");
 
 const app = express();
 
-// Helper para verificar igualdade
 const handlebars = exphbs.create({
-    defaultLayout: 'main', // Define o layout padrão
+    defaultLayout: 'main',
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
       allowProtoMethodsByDefault: true,

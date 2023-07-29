@@ -16,24 +16,6 @@
     </div>
 </div>
 
-<div class="header">
-    <div class="header-text">
-        <a href="/">site-foda</a>
-    </div>
-    <div class="subheader-text">
-        <a href="/admin/gerenciar">gerenciar</a>
-    </div>
-    <div class="subheader-text">
-        <a href="/admin/criar-post">criar</a>
-    </div>
-    <div class="subheader-text">
-        <a href="/logout">logout</a>
-    </div>
-    <div class="subheader-text">
-        <a href="/profile/">perfil</a>
-    </div>
-</div>
-
 <div class="content">
     <button class="registro-button"><a href="/criar-post" >criar post</a></button>
     <h1 class="post-label">Todos os posts</h1>
@@ -42,13 +24,13 @@
     <div class="post">
         <h1 class="post-title"><a href="/post/{{_id}}">{{titulo}}</a></h1>
          {{#ifEqual role "owner"}}
-            <p class="post-author">Escrito por <a href="/profile/{{_id}}" style="color: rgb(143, 7, 255);">{{usuario}}</a> | {{date}}</p>
+            <p class="post-author">Escrito por <a href="/profile/{{usuario}}" style="color: rgb(143, 7, 255);">{{usuario}}</a> | {{date}}</p>
         {{/ifEqual}}
         {{#ifEqual role "admin"}}
-            <p class="post-author">Escrito por <a href="/profile/{{_id}}" style="color: rgb(255, 7, 110);">{{usuario}}</a> | {{date}}</p>
+            <p class="post-author">Escrito por <a href="/profile/{{usuario}}" style="color: rgb(255, 7, 110);">{{usuario}}</a> | {{date}}</p>
         {{/ifEqual}}
         {{#ifEqual role "member"}}
-            <p class="post-author" id="user_name">Escrito por <a href="/profile/{{_id}}">{{usuario}}</a> | {{date}}</p> 
+            <p class="post-author" id="user_name">Escrito por <a href="/profile/{{usuario}}">{{usuario}}</a> | {{date}}</p> 
         {{/ifEqual}}
 
         <div class="post-content">{{conteudo}}</div>

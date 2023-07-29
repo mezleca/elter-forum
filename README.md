@@ -11,7 +11,7 @@ Este é um projeto de fórum simples, desenvolvido por um animal que nao entende
 ```
 1. Certifique-se de ter o Node.js e npm instalados.
 2. Clone este repositório.
-3. Instale os modulos do projeto com o comando: `npm install nome_do_modulo`.
+3. Instale os modulos do projeto com o comando: `npm install npm install bcrypt cookie-parser dotenv express express-handlebars handlebars jsonwebtoken mongoose nodemon`.
 4. Crie um arquivo .env se baseando no .env.example do projeto.
 5. Inicie o servidor local com: `npm start`.
 6. Acesse o projeto em seu navegador através de: `http://localhost:8080`.

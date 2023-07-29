@@ -1,5 +1,14 @@
+{{#if error}}
+<div class="popup-overlay">
+    <div class="popup">
+      <span class="close-button">&times;</span>
+      <h2>Ocorreu um erro</h2>
+      <p>{{error.msg}}</p>
+    </div>
+  </div>
+{{/if}}
+
 <div class="registro-container">
-    <h1>{{error}}</h1>
     <h1 class="registro-heading">Registro</h1>
     <form action="/auth/cadastro" method="post">
         <div class="registro-form-group">
@@ -20,5 +29,23 @@
         <button type="submit" class="registro-button">Registrar</button>
             <h1 class="registro-heading"><a href="/auth/login">already have a account?</a></h1>
     </form>
-
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const popupOverlay = document.querySelector('.popup-overlay');
+    const closePopupButton = document.querySelector('.close-button');
+
+    function closePopup() {
+        popupOverlay.style.display = 'none';
+    }
+
+    closePopupButton.addEventListener('click', closePopup);
+
+    popupOverlay.addEventListener('click', function(event) {
+    if (event.target === popupOverlay) {
+        closePopup();
+    }
+    });
+});
+</script>

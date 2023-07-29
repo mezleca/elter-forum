@@ -5,7 +5,7 @@ const Posts = require("../models/Post");
 const User = require("../models/User");
 const Comentarios = require("../models/Comentarios");
 
-const {token, verify} = require("../mw/token");
+const {token, verify_user} = require("../mw/token");
 
 function formatDate(date) {
     const day = date.getDate();
@@ -92,10 +92,17 @@ router.get("/post/:id", async (req, res) => {
     const posts = await setup_posts(Posts, id);
     const comentarios = await Comentarios.find({post_id: id}).sort({timestamp: -1}).exec();
 
-    res.render("user/post.handlebars", {post: posts, comentario: comentarios, postid: id});
+    try {
+        const _token = req.cookies.token;
+        token.verify(_token, process.env.MY_SECRET);
+        res.render("user/post.handlebars", {post: posts, comentario: comentarios, postid: id, logged: true});
+    }
+    catch(err) {
+        res.render("user/post.handlebars", {post: posts, comentario: comentarios, postid: id, logged: false});
+    }
 })
 
-router.post("/add-comentario", verify, async (req, res) => {
+router.post("/add-comentario", verify_user, async (req, res) => {
     const {conteudo, post_id} = req.body;
 
     const date = new Date();
@@ -122,7 +129,7 @@ router.post("/add-comentario", verify, async (req, res) => {
     }
 })
 
-router.get("/profile", verify, async (req, res) => {
+router.get("/profile", verify_user, async (req, res) => {
 
     try {
         const _token = req.cookies.token;
@@ -138,11 +145,11 @@ router.get("/profile", verify, async (req, res) => {
     }
 })
 
-router.get("/trocar-nome", verify, async (req, res) => {
+router.get("/trocar-nome", verify_user, async (req, res) => {
     res.render("user/change-name.handlebars");
 })
 
-router.post("/trocar-nome", verify, async (req, res) => { // feat chatgpt
+router.post("/trocar-nome", verify_user, async (req, res) => { // feat chatgpt
     const { new_user } = req.body;
 
     try {
@@ -186,8 +193,7 @@ router.get("/profile/:id", async (req, res) => {
 
     try {
         const id = req.params.id; 
-        const post = await Posts.findOne({_id: id});
-        const user = await User.findOne({usuario: post.usuario});
+        const user = await User.findOne({usuario: id});
 
         res.render("user/perfil.handlebars", {usuario: user.usuario, role: user.role});
         
@@ -198,7 +204,7 @@ router.get("/profile/:id", async (req, res) => {
     }
 })
 
-router.get("/criar-post", verify, (req, res) => {
+router.get("/criar-post", verify_user, (req, res) => {
     const cookie = req.cookies.token;
     const _token = token.decode(cookie);  
 
@@ -210,7 +216,7 @@ router.get("/criar-post", verify, (req, res) => {
     });
 });
 
-router.post("/criar-post", verify, async (req, res) => {
+router.post("/criar-post", verify_user, async (req, res) => {
 
     const {titulo, conteudo, categoria} = req.body;
 

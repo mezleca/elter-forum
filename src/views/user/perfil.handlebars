@@ -1,18 +1,38 @@
-<div class="profile-container">
-    <h1 class="profile-heading">Perfil do Usuário</h1>
-    <div class="profile-info">
-        <label for="name" class="profile-label">Nome</label>
-        <div class="profile-value" id="name" style="display: inline;">{{usuario}}</div>
-        <button><a href="/trocar-nome/">trocar nome</a></button>
+<div class="header">
+    <div class="header-text">
+        <a href="/">site-foda</a>
     </div>
-
-    <div class="profile-info">
-        <label for="role" class="profile-label">Cargo</label>
-        <div class="profile-value" id="role">{{role}}</div>
+    <div class="subheader-text">
+        <a href="/admin/gerenciar">gerenciar</a>
     </div>
+    <div class="subheader-text">
+        <a href="/admin/criar-post">criar</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/logout">logout</a>
+    </div>
+    <div class="subheader-text">
+        <a href="/profile/">perfil</a>
+    </div>
+</div>
 
-    <div class="profile-info">
-        <label for="status" class="profile-label">Status</label>
-        <div class="profile-value" id="status">offline</div>
+<div class="content" style="color: black;">
+    <div class="profile-container">
+        <h1 class="profile-heading">Perfil do Usuário</h1>
+        <div class="profile-info">
+            <label for="name" class="profile-label">Nome</label>
+            <div class="profile-value" id="name" style="display: inline;">{{usuario}}</div>
+            <button><a href="/trocar-nome/">trocar nome</a></button>
+        </div>
+
+        <div class="profile-info">
+            <label for="role" class="profile-label">Cargo</label>
+            <div class="profile-value" id="role">{{role}}</div>
+        </div>
+
+        <div class="profile-info">
+            <label for="status" class="profile-label">Status</label>
+            <div class="profile-value" id="status">offline</div>
+        </div>
     </div>
 </div>

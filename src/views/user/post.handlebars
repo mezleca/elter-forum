@@ -20,13 +20,13 @@
     <div class="post">
         <h1 class="post-title">{{post.titulo}}</h1>
         {{#ifEqual post.role "owner"}}
-            <p class="post-author">Escrito por <a href="/profile/{{post._id}}" style="color: rgb(143, 7, 255);">{{post.usuario}}</a> | {{post.date}}</p>
+            <p class="post-author">Escrito por <a href="/profile/{{post.usuario}}" style="color: rgb(143, 7, 255);">{{post.usuario}}</a> | {{post.date}}</p>
         {{/ifEqual}}
         {{#ifEqual post.role "admin"}}
-            <p class="post-author">Escrito por <a href="/profile/{{post._id}}" style="color: rgb(255, 7, 110);">{{post.usuario}}</a> | {{post.date}}</p>
+            <p class="post-author">Escrito por <a href="/profile/{{post.usuario}}" style="color: rgb(255, 7, 110);">{{post.usuario}}</a> | {{post.date}}</p>
         {{/ifEqual}}
         {{#ifEqual post.role "member"}}
-            <p class="post-author" id="user_name">Escrito por <a href="/profile/{{post._id}}">{{post.usuario}}</a> | {{post.date}}</p> 
+            <p class="post-author" id="user_name">Escrito por <a href="/profile/{{post.usuario}}">{{post.usuario}}</a> | {{post.date}}</p> 
         {{/ifEqual}}
 
         <div class="post-content">{{post.conteudo}}</div>
@@ -39,11 +39,17 @@
 
         <div class="comments-container">
             <div class="new-comment">
-                <form action="/add-comentario" method="post" style="display: flex; flex-direction: column; width: 100%">
-                    <textarea id="comment-text" placeholder="Digite seu comentário..." rows="3" name="conteudo"></textarea>
-                    <input type="hidden" name="post_id" value="{{postid}}">
-                    <button id="submit-comment" type="submit">Enviar</button>
-                </form>
+                {{#if logged}}
+                    <form action="/add-comentario" method="post" style="display: flex; flex-direction: column; width: 100%">
+                        <textarea id="comment-text" placeholder="Digite seu comentário..." rows="3" name="conteudo"></textarea>
+                        <input type="hidden" name="post_id" value="{{postid}}">
+                        <button id="submit-comment" type="submit">Enviar</button>
+                    </form>
+                {{else}}
+                    <form action="" method="" style="display: flex; flex-direction: column; width: 100%">
+                        <textarea id="comment-text" placeholder="Entre na sua conta para comentar no post" rows="3" name="conteudo" disabled></textarea>
+                    </form>
+                {{/if}}
             </div>
         </div>
 

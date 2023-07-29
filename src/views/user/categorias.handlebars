@@ -26,13 +26,13 @@
                 {{#if last_post}}
                     <p class="last-post-title">{{last_post.titulo}}</p>
                          {{#ifEqual last_post.role "owner"}}
-                            <p class="post-author">por <a href="/profile/{{_id}}" style="color: rgb(143, 7, 255);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
+                            <p class="post-author">por <a href="/profile/{{last_post.usuario}}" style="color: rgb(143, 7, 255);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
                         {{/ifEqual}}
                         {{#ifEqual last_post.role "admin"}}
-                            <p class="post-author">por <a href="/profile/{{_id}}" style="color: rgb(255, 7, 110);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
+                            <p class="post-author">por <a href="/profile/{{last_post.usuario}}" style="color: rgb(255, 7, 110);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
                         {{/ifEqual}}
                         {{#ifEqual last_post.role "member"}}
-                            <p class="post-author" id="user_name">por <a href="/profile/{{_id}}">{{last_post.usuario}}</a> | {{last_post.date}}</p> 
+                            <p class="post-author" id="user_name">por <a href="/profile/{{last_post.usuario}}">{{last_post.usuario}}</a> | {{last_post.date}}</p> 
                         {{/ifEqual}}
                 {{else}}
                     <p class="no-post-message">Nenhum post nesta categoria ainda.</p>
