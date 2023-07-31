@@ -4,6 +4,7 @@ const router = express.Router();
 const Posts = require("../models/Post");
 const User = require("../models/User");
 const Comentarios = require("../models/Comentarios");
+const {msg_array} = require("../models/Mensagens");
 
 const {token, verify_user} = require("../mw/token");
 
@@ -75,8 +76,17 @@ router.get("/logout", (req, res) => {
 })
 
 router.get("/", async (req, res) => {
-    const posts = await setup_posts(Posts);
-    res.render("user/categorias.handlebars", {categorias: posts.categorias});
+
+    try {
+        const _token = req.cookies.token;
+        const decoded = token.decode(_token);
+        const posts = await setup_posts(Posts);
+        res.render("user/categorias.handlebars", {categorias: posts.categorias, msgs: msg_array, namers: decoded.name });
+    }
+    catch(err) {
+        const posts = await setup_posts(Posts);
+        res.render("user/categorias.handlebars", {categorias: posts.categorias, msgs: msg_array, error: "logue no site para ter acesso ao chat"});
+    }
 })
 
 router.get("/categoria/:name", async (req, res) => {
@@ -175,13 +185,8 @@ router.post("/trocar-nome", verify_user, async (req, res) => { // feat chatgpt
         if (comentariosExists) {
             await Comentarios.updateMany({ usuario: user.name }, { $set: { usuario: new_user } });
         }
-
-        const new_token = user;
-        new_token.name = new_user;
-       
+ 
         res.clearCookie('token');
-        res.cookie('token', new_token, { maxAge: 604800000, httpOnly: true }); // 7 dias
-
         res.redirect("/profile");
     } catch(err) {
         console.log(err);

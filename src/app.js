@@ -3,12 +3,37 @@ const exphbs = require('express-handlebars');
 const mongoose = require("mongoose");
 const parser = require("cookie-parser");
 const path = require('path');
+const socket = require("socket.io");
+
+const app = express();
+const http = require("http").createServer(app);
+const io = socket(http);
 
 const admin_routes = require("./routes/admin");
 const user_routes = require("./routes/user");
 const auth_routes = require("./routes/auth");
 
-const app = express();
+const {Mensagens, msg_array} = require("./models/Mensagens");
+
+io.on("connection", async (socket) => {
+
+  console.log("Usuario conectado, id:", socket.id);
+
+  socket.on('join-room', (name) => {
+    console.log("entrou em, ", name);
+    socket.join(name);
+    console.log(`Usuario ${socket.id} entrou na sala ${name}`);
+  });
+
+  socket.on('msg', async (data) => {
+    msg_array.push({
+      msg: data.msg,
+      usuario: data.usuario,
+      date: data.date || "Invalid data"
+    })
+    io.to("chatbox").emit('msg', msg_array);
+  });
+})
 
 const handlebars = exphbs.create({
     defaultLayout: 'main',
@@ -23,6 +48,9 @@ const handlebars = exphbs.create({
         } else {
           return options.inverse(this);
         }
+      },
+      jsonStringify: function (obj) {
+        return JSON.stringify(obj);
       }
     }
   })
@@ -47,7 +75,7 @@ app.get("/logout", (req, res) => {
     res.redirect("/auth/login");
 })
 
-app.listen(8080, () => {
+http.listen(8080, () => {
     console.log("servidor rodando");
 })
 
