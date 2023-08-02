@@ -98,12 +98,31 @@
 
     
     msg_array.map((msgs) => {
-        console.log(msgs);
+        
+        const msg_array = msgs.msg.split(" ");
+
+        let new_string = substituir(msgs.msg, `@{{namers}}`, `<p style="color: red; display: inline; font-weight: bold;">@{{namers}}</p>`) || undefined;
+        if (new_string != undefined) {
+            msgs.msg = new_string;
+            console.log("new_string:", msgs.msg);
+        }
+
         appendMessage(msgs);
     })
 
+    function substituir(string, a, b) {
+        const z = string.split(' ');
+        const new_string = z.map(z => z === a ? b : z);
+        return new_string.join(' ');
+    }
+
     socket.on('msg', async (message) => {
-        console.log(message);
+
+        let new_string = substituir(message[message.length - 1].msg, `@{{namers}}`, `<p style="color: red; display: inline; font-weight: bold;">@{{namers}}</p>`) || undefined;
+        if (new_string != undefined) {
+            message[message.length - 1].msg = new_string;
+        }
+
         appendMessage(message[message.length - 1]);
     });
 
@@ -115,7 +134,7 @@
 
         const messageElement = document.createElement('div');
         messageElement.className = `chat-message`;
-        messageElement.innerHTML = `<div class="message-info">${user_name} - ${date}</div><div>${msg}</div>`;
+        messageElement.innerHTML = `<div class="message-info"><a style="color: grey;" href="/profile/${user_name}">${user_name}</a> - ${date}</div><div>${msg}</div>`;
         chatMessages.appendChild(messageElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }

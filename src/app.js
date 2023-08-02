@@ -20,9 +20,7 @@ io.on("connection", async (socket) => {
   console.log("Usuario conectado, id:", socket.id);
 
   socket.on('join-room', (name) => {
-    console.log("entrou em, ", name);
     socket.join(name);
-    console.log(`Usuario ${socket.id} entrou na sala ${name}`);
   });
 
   socket.on('msg', async (data) => {
