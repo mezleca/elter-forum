@@ -1,0 +1,296 @@
+   
+    <head>
+        <style>
+            .post-label{
+                color: rgb(0, 0, 0);
+                text-align: center;
+                font-size: 35px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .row{
+                margin-top: 100px;
+            }
+
+            body {
+                background-color: #bdbdbd;
+                margin: 0;
+                padding: 0;
+            }
+
+            .navbar {
+                background-color: #343a40;
+                color: #fff;
+            }
+
+            .navbar-brand {
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .nav-link {
+                color: #fff;
+            }
+
+            .content {
+                display: flex;
+                justify-content: space-between;
+                margin: 0 auto;
+                max-width: 1200px;
+                padding: 20px;
+            }
+
+            .form-control{
+                border: 1px solid grey;
+            }
+
+            .chatbox-container {
+                flex: 1;
+                background-color: #ebebeb;
+                color: #333;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                margin-right: 20px;
+            }
+
+            .chat-messages {
+                max-height: 300px;
+                overflow-y: auto;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                padding: 10px;
+                margin-bottom: 15px;
+            }
+
+            .chat-message {
+                margin-bottom: 10px;
+            }
+
+            .message-info {
+                color: #888;
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .message-content {
+                font-size: 16px;
+                border-bottom: 1px solid grey;
+            }
+
+            .categories-container {
+                flex: 1;
+                background-color: #f0f2f5;
+                color: #333;
+                border-radius: 8px;
+                margin-top: 50px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+
+            .category {
+                border-bottom: 1px solid black;
+            }
+
+            .category-title {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .last-post-title {
+                font-size: 15px;
+                font-weight: bold;
+            }
+
+            .post-author {
+                font-size: 14px;
+                color: #888;
+            }
+
+            .no-post-message {
+                color: #888;
+            }
+
+            .chatbox-text {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .navbar-brand{
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+            }
+
+            ::-webkit-scrollbar {
+                width: 3px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background-color: #f1f1f1;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: #888;
+                border-radius: 3px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #555;
+            }
+        </style>
+    </head>
+
+    <body>
+        
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">liberations</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/gerenciar">gerenciar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/criar-post">criar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/">perfil</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <h1 class="post-label">Chatbox</h1>
+                <div class="chatbox-container">
+                    <div class="chat-messages" id="chat-messages"></div>
+                    <div class="chat-input">
+                        {{#if namers}}
+                            <input type="text" id="message-input" class="form-control mb-2" placeholder="Digite sua mensagem...">
+                            <button id="send-button" class="btn btn-primary">Enviar</button>
+                        {{else}}
+                            <input type="text" id="message-input" class="form-control mb-2" placeholder="{{error}}" disabled>
+                            <button id="send-button" class="btn btn-primary" disabled>Enviar</button>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="categories-container">
+                    <h1 class="post-label">Todas as Categorias</h1>
+                    {{#each categorias}}
+                    <div class="category">
+                        <h2 class="category-title"><a href="/categoria/{{nome}}" class="text-decoration-none text-dark">{{nome}}</a></h2>
+                        {{#if last_post}}
+                            <p class="last-post-title">{{last_post.titulo}}</p>
+                            {{#ifEqual last_post.role "owner"}}
+                                <p class="post-author">por <a href="/profile/{{last_post.usuario}}" class="text-decoration-none" style="color: rgb(143, 7, 255);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
+                            {{/ifEqual}}
+                            {{#ifEqual last_post.role "admin"}}
+                                <p class="post-author">por <a href="/profile/{{last_post.usuario}}" class="text-decoration-none" style="color: rgb(255, 7, 110);">{{last_post.usuario}}</a> | {{last_post.date}}</p>
+                            {{/ifEqual}}
+                            {{#ifEqual last_post.role "member"}}
+                                <p class="post-author">por <a href="/profile/{{last_post.usuario}}" class="text-decoration-none">{{last_post.usuario}}</a> | {{last_post.date}}</p> 
+                            {{/ifEqual}}
+                        {{else}}
+                            <p class="no-post-message">Nenhum post nesta categoria ainda.</p>
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const chatMessages = document.getElementById('chat-messages');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+
+    function formatDate(date) {
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+
+        return `${day}/${month}/${year} - ${hour}:${minute}`;
+    }
+
+    var msg_array = {{{jsonStringify msgs}}};
+
+    socket.emit('join-room', "chatbox");
+    const date = new Date();
+
+    sendButton.addEventListener('click', () => {
+        const message = messageInput.value;
+        if (message.trim() !== '') {
+            socket.emit('msg', {
+                msg: message,
+                usuario: '{{namers}}',
+                date: formatDate(date)
+            });
+            messageInput.value = '';
+        }
+    });
+
+    
+    msg_array.map((msgs) => {
+        
+        const msg_array = msgs.msg.split(" ");
+
+        let new_string = substituir(msgs.msg, `@{{namers}}`, `<p style="color: red; display: inline; font-weight: bold;">@{{namers}}</p>`) || undefined;
+        if (new_string != undefined) {
+            msgs.msg = new_string;
+            console.log("new_string:", msgs.msg);
+        }
+
+        appendMessage(msgs);
+    })
+
+    function substituir(string, a, b) {
+        const z = string.split(' ');
+        const new_string = z.map(z => z === a ? b : z);
+        return new_string.join(' ');
+    }
+
+    socket.on('msg', async (message) => {
+
+        let new_string = substituir(message[message.length - 1].msg, `@{{namers}}`, `<p style="color: red; display: inline; font-weight: bold;">@{{namers}}</p>`) || undefined;
+        if (new_string != undefined) {
+            message[message.length - 1].msg = new_string;
+        }
+
+        appendMessage(message[message.length - 1]);
+    });
+
+    function appendMessage(messageObj) {
+
+        let user_name = messageObj.usuario;
+        let date = messageObj.date;
+        let msg = messageObj.msg;
+
+        const messageElement = document.createElement('div');
+        messageElement.className = `chat-message`;
+        messageElement.innerHTML = `<div class="message-info"><a style="color: grey;" href="/profile/${user_name}">${user_name}</a> - ${date}</div><div>${msg}</div>`;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+    </body>
+
+    

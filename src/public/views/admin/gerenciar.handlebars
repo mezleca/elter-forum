@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="../../styles/styles.css">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">liberations</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/gerenciar">gerenciar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/criar-post">criar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/">perfil</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="content">
+    <h1 class="post-label">Todos os posts</h1>
+        <div class="post">
+            <div class="post-grid">
+                {{#each posts}}
+                <div class="post-box">
+                    <h2 class="post-title">{{titulo}}</h2>
+                    <p class="post-author">escrito por {{usuario}} | {{date}}</p>
+                    <div class="post-content">{{conteudo}}</div>
+                    <button><a href="delete-post/{{id}}">deletar post</a></button>
+                </div>
+                {{/each}}
+            </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -4,9 +4,9 @@ const router = express.Router();
 const Posts = require("../models/Post");
 const User = require("../models/User");
 const Comentarios = require("../models/Comentarios");
-const {msg_array} = require("../models/Mensagens");
 
 const {token, verify_user} = require("../mw/token");
+const { Mensagens } = require("../models/Mensagens");
 
 function formatDate(date) {
     const day = date.getDate();
@@ -81,19 +81,29 @@ router.get("/", async (req, res) => {
         const _token = req.cookies.token;
         const decoded = token.decode(_token);
         const posts = await setup_posts(Posts);
+        const msg_array = await Mensagens.find();
+
         res.render("user/categorias.handlebars", {categorias: posts.categorias, msgs: msg_array, namers: decoded.name });
     }
     catch(err) {
         const posts = await setup_posts(Posts);
+        const msg_array = await Mensagens.find();
+        
         res.render("user/categorias.handlebars", {categorias: posts.categorias, msgs: msg_array, error: "logue no site para ter acesso ao chat"});
     }
 })
 
 router.get("/categoria/:name", async (req, res) => {
 
-    const categoria = req.params.name;
-    const posts = await setup_posts(Posts);
-    res.render("user/posts.handlebars", {posts: posts.categorias[categoria].posts});
+    try {
+        const categoria = req.params.name;
+        const posts = await setup_posts(Posts);
+        res.render("user/posts.handlebars", {posts: posts.categorias[categoria].posts});
+    }
+    catch(err) {
+        res.json(`${err}`)
+    }
+
 })
 
 router.get("/post/:id", async (req, res) => {

@@ -13,23 +13,25 @@ const admin_routes = require("./routes/admin");
 const user_routes = require("./routes/user");
 const auth_routes = require("./routes/auth");
 
-const {Mensagens, msg_array} = require("./models/Mensagens");
+const {Mensagens} = require("./models/Mensagens");
 
 io.on("connection", async (socket) => {
-
-  console.log("Usuario conectado, id:", socket.id);
 
   socket.on('join-room', (name) => {
     socket.join(name);
   });
 
   socket.on('msg', async (data) => {
-    msg_array.push({
+
+    const new_comment = new Mensagens({
       msg: data.msg,
       usuario: data.usuario,
-      date: data.date || "Invalid data"
-    })
-    io.to("chatbox").emit('msg', msg_array);
+      date:data.date
+    }).save();
+
+    const todas_msg = await Mensagens.find();
+
+    io.to("chatbox").emit('msg', todas_msg);
   });
 })
 
@@ -56,7 +58,8 @@ const handlebars = exphbs.create({
 app.engine("handlebars", handlebars.engine);
 
 app.set('view-engine', "handlebars");
-app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'public/views'));
 
 app.use(express.urlencoded({
     extended: true

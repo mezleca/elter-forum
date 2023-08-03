@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="../../styles/styles.css">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">liberations</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/gerenciar">gerenciar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/criar-post">criar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile/">perfil</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div class="content">
+    <button class="registro-button"><a href="/criar-post" >criar post</a></button>
+    <h1 class="post-label">Todos os posts</h1>
+
+    {{#each posts}} 
+    <div class="post">
+        <h1 class="post-title"><a href="/post/{{_id}}">{{titulo}}</a></h1>
+         {{#ifEqual role "owner"}}
+            <p class="post-author">Escrito por <a href="/profile/{{usuario}}" style="color: rgb(143, 7, 255);">{{usuario}}</a> | {{date}}</p>
+        {{/ifEqual}}
+        {{#ifEqual role "admin"}}
+            <p class="post-author">Escrito por <a href="/profile/{{usuario}}" style="color: rgb(255, 7, 110);">{{usuario}}</a> | {{date}}</p>
+        {{/ifEqual}}
+        {{#ifEqual role "member"}}
+            <p class="post-author" id="user_name">Escrito por <a href="/profile/{{usuario}}">{{usuario}}</a> | {{date}}</p> 
+        {{/ifEqual}}
+
+        <div class="post-content">{{conteudo}}</div>
+    </div>
+    {{/each}}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
